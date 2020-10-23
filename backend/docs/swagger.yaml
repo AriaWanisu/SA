@@ -1,0 +1,760 @@
+basePath: /api/v1
+definitions:
+  ent.Course:
+    properties:
+      course_name:
+        description: CourseName holds the value of the "course_name" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.CourseEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the CourseQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.CourseEdges:
+    properties:
+      courseItems:
+        description: CourseItems holds the value of the course_items edge.
+        items:
+          $ref: '#/definitions/ent.CourseItem'
+        type: array
+      owner:
+        $ref: '#/definitions/ent.Teacher'
+        description: Owner holds the value of the owner edge.
+        type: object
+    type: object
+  ent.CourseItem:
+    properties:
+      edges:
+        $ref: '#/definitions/ent.CourseItemEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the CourseItemQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.CourseItemEdges:
+    properties:
+      courses:
+        $ref: '#/definitions/ent.Course'
+        description: Courses holds the value of the courses edge.
+        type: object
+      subjects:
+        $ref: '#/definitions/ent.Subject'
+        description: Subjects holds the value of the subjects edge.
+        type: object
+      types:
+        $ref: '#/definitions/ent.SubjectType'
+        description: Types holds the value of the types edge.
+        type: object
+    type: object
+  ent.Subject:
+    properties:
+      edges:
+        $ref: '#/definitions/ent.SubjectEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the SubjectQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+      subject_name:
+        description: SubjectName holds the value of the "subject_name" field.
+        type: string
+    type: object
+  ent.SubjectEdges:
+    properties:
+      courseItems:
+        description: CourseItems holds the value of the course_items edge.
+        items:
+          $ref: '#/definitions/ent.CourseItem'
+        type: array
+      owner:
+        $ref: '#/definitions/ent.Teacher'
+        description: Owner holds the value of the owner edge.
+        type: object
+    type: object
+  ent.SubjectType:
+    properties:
+      edges:
+        $ref: '#/definitions/ent.SubjectTypeEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the SubjectTypeQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+      type_name:
+        description: TypeName holds the value of the "type_name" field.
+        type: string
+    type: object
+  ent.SubjectTypeEdges:
+    properties:
+      courseItems:
+        description: CourseItems holds the value of the course_items edge.
+        items:
+          $ref: '#/definitions/ent.CourseItem'
+        type: array
+    type: object
+  ent.Teacher:
+    properties:
+      edges:
+        $ref: '#/definitions/ent.TeacherEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the TeacherQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+      teacher_email:
+        description: TeacherEmail holds the value of the "teacher_email" field.
+        type: string
+      teacher_name:
+        description: TeacherName holds the value of the "teacher_name" field.
+        type: string
+    type: object
+  ent.TeacherEdges:
+    properties:
+      courses:
+        description: Courses holds the value of the courses edge.
+        items:
+          $ref: '#/definitions/ent.Course'
+        type: array
+      subjects:
+        description: Subjects holds the value of the subjects edge.
+        items:
+          $ref: '#/definitions/ent.Subject'
+        type: array
+    type: object
+  gin.H:
+    additionalProperties: true
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server for SUT SE 2563
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: SUT SA Project API Course Item
+  version: "1.0"
+paths:
+  /Course:
+    get:
+      description: list Course entities
+      operationId: list-Course
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Course'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List Course entities
+    post:
+      consumes:
+      - application/json
+      description: Create Course
+      operationId: create-Course
+      parameters:
+      - description: Course entity
+        in: body
+        name: Course
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Course'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Course'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create Course
+  /CourseItems:
+    get:
+      description: list courseitem entities
+      operationId: list-courseitem
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.CourseItem'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List courseitem entities
+    post:
+      consumes:
+      - application/json
+      description: Create courseitem
+      operationId: create-courseitem
+      parameters:
+      - description: courseitem entity
+        in: body
+        name: courseitem
+        required: true
+        schema:
+          $ref: '#/definitions/ent.CourseItem'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.CourseItem'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create courseitem
+  /CourseItems/{id}:
+    delete:
+      description: get courseitem by ID
+      operationId: delete-courseitem
+      parameters:
+      - description: courseitems ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Delete a courseitem entity by ID
+    get:
+      description: get courseitem by ID
+      operationId: get-courseitem
+      parameters:
+      - description: courseitem ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.CourseItem'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a courseitem entity by ID
+    put:
+      consumes:
+      - application/json
+      description: update courseitem by ID
+      operationId: update-courseitem
+      parameters:
+      - description: courseitem ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: courseitem entity
+        in: body
+        name: courseitem
+        required: true
+        schema:
+          $ref: '#/definitions/ent.CourseItem'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.CourseItem'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Update a courseitem entity by ID
+  /Courses/{id}:
+    get:
+      description: get Course by ID
+      operationId: get-Course
+      parameters:
+      - description: Course ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Course'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a Course entity by ID
+  /SubjectTypes:
+    get:
+      description: list SubjectType entities
+      operationId: list-SubjectType
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.SubjectType'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List SubjectType entities
+    post:
+      consumes:
+      - application/json
+      description: Create SubjectType
+      operationId: create-SubjectType
+      parameters:
+      - description: SubjectType entity
+        in: body
+        name: SubjectType
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Course'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.SubjectType'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create SubjectType
+  /SubjectTypes/{id}:
+    get:
+      description: get SubjectType by ID
+      operationId: get-SubjectType
+      parameters:
+      - description: SubjectType ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.SubjectType'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a SubjectType entity by ID
+  /Subjects:
+    get:
+      description: list Subject entities
+      operationId: list-Subject
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Subject'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List Subject entities
+    post:
+      consumes:
+      - application/json
+      description: Create Subject
+      operationId: create-Subject
+      parameters:
+      - description: Subject  entity
+        in: body
+        name: Subject
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Subject'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Subject'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create Subject
+  /Subjects/{id}:
+    get:
+      description: get Subject by ID
+      operationId: get-Subject
+      parameters:
+      - description: Subject ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Subject'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a Subject entity by ID
+  /Teachers:
+    get:
+      description: list Teacher entities
+      operationId: list-Teacher
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Teacher'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List Teacher entities
+    post:
+      consumes:
+      - application/json
+      description: Create Teacher
+      operationId: create-Teacher
+      parameters:
+      - description: Teacher entity
+        in: body
+        name: Teacher
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Course'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Teacher'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create Teacher
+  /Teachers/{id}:
+    delete:
+      description: get Teacher by ID
+      operationId: delete-Teacher
+      parameters:
+      - description: Teacher ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Delete a Teacher entity by ID
+    get:
+      description: get Teacher by ID
+      operationId: get-Teacher
+      parameters:
+      - description: Teacher ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Teacher'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a Teacher entity by ID
+    put:
+      consumes:
+      - application/json
+      description: update Teacher by ID
+      operationId: update-Teacher
+      parameters:
+      - description: Teacher ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Teacher entity
+        in: body
+        name: Teacher
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Teacher'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Teacher'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Update a Teacher entity by ID
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+  BasicAuth:
+    type: basic
+  OAuth2AccessCode:
+    authorizationUrl: https://example.com/oauth/authorize
+    flow: accessCode
+    scopes:
+      admin: ' Grants read and write access to administrative information'
+    tokenUrl: https://example.com/oauth/token
+    type: oauth2
+  OAuth2Application:
+    flow: application
+    scopes:
+      admin: ' Grants read and write access to administrative information'
+      write: ' Grants write access'
+    tokenUrl: https://example.com/oauth/token
+    type: oauth2
+  OAuth2Implicit:
+    authorizationUrl: https://example.com/oauth/authorize
+    flow: implicit
+    scopes:
+      admin: ' Grants read and write access to administrative information'
+      write: ' Grants write access'
+    type: oauth2
+  OAuth2Password:
+    flow: password
+    scopes:
+      admin: ' Grants read and write access to administrative information'
+      read: ' Grants read access'
+      write: ' Grants write access'
+    tokenUrl: https://example.com/oauth/token
+    type: oauth2
+swagger: "2.0"
